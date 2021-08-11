@@ -22,7 +22,8 @@ except:
     exists = False
 print("Exists?", exists)
 
+quiz.pop("id")
 # CREATE FORM IF IT DOESNT EXIST
-forms.create(
+forms.create(quiz)
 
 # UPDATE FORM IF IT EXISTS
