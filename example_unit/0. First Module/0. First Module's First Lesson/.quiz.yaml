@@ -1,13 +1,13 @@
 id: testingid
-title: My test
-workspace: 
-  href: https://api.typeform.com/workspaces/UeAYVt
-fields:
-  - ref: myfield
-    title: My Field
-    type: multiple_choice
-    properties:
-      allow_multiple_selection: true
-      choices: 
-        - ref: myfirstchoice
-          label: My First Choice
+name: My test
+questions:
+  - question: Which is the best option?
+    description: THis is a great question
+    options:
+      - option: The first option
+        correct: true
+        reason: Great option
+      - option: The second option
+        correct: false
+        reason: Bad option
+       
