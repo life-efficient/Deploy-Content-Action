@@ -1,9 +1,23 @@
 import yaml
 from typeform import Typeform
+import requests
+import json
 
 # GET CREDENTIALS
 with open("creds.json") as f:
     token = yaml.safe_load(f)["typeform_token"]
+
+
+def post(endpoint, payload):
+    response = requests.post(
+        endpoint, data=json.dumps(payload), headers={"Authorization": f"Bearer {token}"}
+    )
+    return json.loads(response.content)
+
+
+def create(quiz):
+    return post("https://api.typeform.com/forms", quiz)
+
 
 # GET QUIZ YAML
 quiz_file = "example_unit/0. First Module/0. First Module's First Lesson/.quiz.yaml"
@@ -35,61 +49,49 @@ def format_quiz(quiz):
         }
         for q_idx, q in enumerate(quiz["questions"])
     ]
-
     return template
 
 
-# GET ENTRIES OF EXISTING QUIZZES # TODO convert to actual SQL db
-local_store_fp = "local_quiz_db_store.yaml"
-with open(local_store_fp) as f:
-    quiz_ids = yaml.safe_load(f)
-print("quizzes", quiz_ids)
-if not quiz_ids:
-    quiz_ids = {}
+def create_or_update_quiz(quiz):
+
+    # GET ENTRIES OF EXISTING QUIZZES # TODO convert to actual SQL db
+    local_store_fp = "local_quiz_db_store.yaml"
+    with open(local_store_fp) as f:
+        quiz_ids = yaml.safe_load(f)
+    print("quizzes", quiz_ids)
+    if not quiz_ids:
+        quiz_ids = {}
+
+    # CHECK IF FORM EXISTS
+    try:
+        typeform_quiz_id = quiz_ids[quiz["id"]]  # check it exists in local storage
+        forms.get(typeform_quiz_id)  # double check it exists in typeform
+        exists = True
+    except KeyError:
+        print("Form not in local db")
+        exists = False
+    except:
+        print("Form not in typeform")
+        exists = False
+    print("Exists?", exists)
+
+    local_quiz_id = quiz.pop("id")
+
+    # CREATE FORM IF IT DOESNT EXIST
+    if not exists:
+        print("Creating", local_quiz_id)
+        response = create(format_quiz(quiz))
+        typeform_quiz_id = response["id"]
+        quiz_ids[local_quiz_id] = typeform_quiz_id
+        with open(local_store_fp, "w") as f:
+            yaml.dump(quiz_ids, f)
+
+    # UPDATE FORM IF IT EXISTS
+    else:
+        print("Updating", local_quiz_id)
+        # typeform_quiz_id = get_typeform_quiz_id(quiz["id"])
+        response = forms.update(typeform_quiz_id, format_quiz(quiz))
 
 
-def get_typeform_quiz_id(local_quiz_id):
-    return quiz_ids[local_quiz_id]
-
-
-# CHECK IF FORM EXISTS
-try:
-    typeform_quiz_id = get_typeform_quiz_id(
-        quiz["id"]
-    )  # check it exists in local storage
-    forms.get(typeform_quiz_id)  # double check it exists in typeform
-    exists = True
-except KeyError:
-    print("Form not in local db")
-    exists = False
-except:
-    print("Form not in typeform")
-    exists = False
-print("Exists?", exists)
-
-local_quiz_id = quiz.pop("id")
-
-# def create_or_update_quiz(quiz):
-# CREATE FORM IF IT DOESNT EXIST
-if not exists:
-    print("Creating", local_quiz_id)
-    response = forms.create(format_quiz(quiz))
-    typeform_quiz_id = response["id"]
-    quiz_ids[local_quiz_id] = typeform_quiz_id
-    with open(local_store_fp, "w") as f:
-        yaml.dump(quiz_ids, f)
-
-# UPDATE FORM IF IT EXISTS
-else:
-    print("Updating", local_quiz_id)
-    # typeform_quiz_id = get_typeform_quiz_id(quiz["id"])
-    response = forms.update(typeform_quiz_id, format_quiz(quiz))
-
-
-# create_or_update_quiz(quiz)
-
-
-# class Quiz:
-#     def create_or_update():
-#     def __update():
-#     def __create(self):
+if __name__ == "__main__":
+    create_or_update_quiz(quiz)
