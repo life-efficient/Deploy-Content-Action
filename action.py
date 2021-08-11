@@ -1,23 +1,9 @@
 import yaml
 from typeform import Typeform
-import requests
-import json
 
 # GET CREDENTIALS
 with open("creds.json") as f:
     token = yaml.safe_load(f)["typeform_token"]
-
-
-def post(endpoint, payload):
-    response = requests.post(
-        endpoint, data=json.dumps(payload), headers={"Authorization": f"Bearer {token}"}
-    )
-    return json.loads(response.content)
-
-
-def create(quiz):
-    return post("https://api.typeform.com/forms", quiz)
-
 
 # GET QUIZ YAML
 quiz_file = "example_unit/0. First Module/0. First Module's First Lesson/.quiz.yaml"
@@ -80,7 +66,7 @@ def create_or_update_quiz(quiz):
     # CREATE FORM IF IT DOESNT EXIST
     if not exists:
         print("Creating", local_quiz_id)
-        response = create(format_quiz(quiz))
+        response = forms.create(format_quiz(quiz))
         typeform_quiz_id = response["id"]
         quiz_ids[local_quiz_id] = typeform_quiz_id
         with open(local_store_fp, "w") as f:
