@@ -1,0 +1,12 @@
+title: My test
+workspace: 
+  href: https://api.typeform.com/workspaces/UeAYVt
+fields:
+  - ref: myfield
+    title: My Field
+    type: multiple_choice
+    properties:
+      allow_multiple_selection: true
+      choices: 
+        - ref: myfirstchoice
+          label: My First Choice
