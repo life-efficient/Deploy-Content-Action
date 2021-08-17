@@ -9,7 +9,10 @@ import os
 import requests
 import json
 
-API_ROOT = "http://localhost:8000"
+try:
+    API_ROOT = os.environ["API_ROOT"]
+except KeyError:
+    API_ROOT = "http://localhost:8000"
 
 
 class Client:
