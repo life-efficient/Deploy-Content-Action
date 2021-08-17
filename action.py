@@ -44,6 +44,7 @@ if __name__ == "__main__":
     unit_meta["name"] = (
         sys.argv[-1].split("/")[-1].replace("-Private", "")
     )  # folder name is passed in as cli arg and will be the private version
+    assert "action.py" not in unit_meta["name"]
     client.create_or_update_unit(unit_meta)
 
     # CREATE MODULE ENTRIES
