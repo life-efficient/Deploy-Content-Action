@@ -50,6 +50,12 @@ if __name__ == "__main__":
 
     # CREATE MODULE ENTRIES
     for module_path in get_module_paths():
+
+        # SKIP UNWANTED FOLDERS WHICH ARE NOT MODULES
+        if module_path in [".git", ".idea", ".tox", "__pycache__", ".vscode"]:
+            continue
+
+        # CREATE MODULE ENTRY
         module_meta = get_meta(os.path.join(module_path, ".module.yaml"))
         module_meta["name"] = module_path.split("/")[-1]
         module_meta["unit_id"] = unit_meta["id"]
