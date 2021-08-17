@@ -32,6 +32,7 @@ class Client:
     def _request(self, url, payload_yaml):
         response = requests.post(url, data=json.dumps(payload_yaml))
         print(response)
+        assert response.status_code == 200
 
 
 if __name__ == "__main__":
@@ -52,7 +53,11 @@ if __name__ == "__main__":
         module_meta = get_meta(os.path.join(module_path, ".module.yaml"))
         module_meta["name"] = module_path.split("/")[-1]
         module_meta["unit_id"] = unit_meta["id"]
-        client.create_or_update_module(module_meta)
+        try:
+            client.create_or_update_module(module_meta)
+        except AssertionError:
+            print(f'Creating module "{module_path}" failed')
+            continue
 
         lesson_paths = get_lesson_paths_in_module(module_path)
 
@@ -61,11 +66,19 @@ if __name__ == "__main__":
             lesson_meta = get_meta(os.path.join(lesson_path, ".lesson.yaml"))
             lesson_meta["name"] = lesson_path.split("/")[-1]
             lesson_meta["module_id"] = module_meta["id"]
-            client.create_or_update_lesson(lesson_meta)
+            try:
+                client.create_or_update_lesson(lesson_meta)
+            except AssertionError:
+                print(f'Creating lesson "{lesson_path}" failed')
+                continue
 
             # CREATE QUIZ ENTRY
             quiz_path = get_quiz_path_in_lesson(lesson_path)
             with open(quiz_path) as f:
                 quiz = yaml.safe_load(f)
             quiz["lesson_id"] = lesson_meta["id"]
-            client.create_or_update_quiz(quiz)
+            try:
+                client.create_or_update_quiz(quiz)
+            except AssertionError:
+                print(f'Creating quiz "{quiz_path}" failed')
+                continue
