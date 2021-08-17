@@ -2,6 +2,14 @@
 name: 'Deploy Content'
 description: 'Deploys content'
 inputs:
+  test:
+    description: Name of unit
+    required: false
+    default: bar
+  test2:
+    description: Name of unit
+    required: true
+    default: bra
   unit_name:
     description: Name of unit
     required: false
@@ -11,5 +19,7 @@ runs:
   image: 'Dockerfile'
   args:
     - ${{ inputs.unit_name }}
+    - ${{ inputs.test2 }}
+    - ${{ inputs.test }}
     - 'foo'
     # - ${{ secrets.API_ROOT }}
