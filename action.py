@@ -74,6 +74,8 @@ if __name__ == "__main__":
 
             # CREATE QUIZ ENTRY
             quiz_path = get_quiz_path_in_lesson(lesson_path)
+            if not os.path.exists(quiz_path):
+                continue
             with open(quiz_path) as f:
                 quiz = yaml.safe_load(f)
             quiz["lesson_id"] = lesson_meta["id"]
