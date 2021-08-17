@@ -2,7 +2,10 @@
 name: 'Deploy Content'
 description: 'Deploys content'
 inputs:
-  unit_name: ${{ github.repository.name }}
+  unit:
+    description: Name of unit
+    required: false
+    default: ${{ github.repository.name }}
 runs:
   using: 'docker'
   image: 'Dockerfile'
