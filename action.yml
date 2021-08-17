@@ -1,9 +1,11 @@
 # action.yml
 name: 'Deploy Content'
 description: 'Deploys content'
+inputs:
+  unit_name: ${{ github.repository.name }}
 runs:
   using: 'docker'
   image: 'Dockerfile'
   args:
-    - ${{ github.repository.name }}
+    - ${{ inputs.unit_name }}
     # - ${{ secrets.API_ROOT }}
