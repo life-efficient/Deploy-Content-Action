@@ -7,3 +7,4 @@ RUN python -m pip install --upgrade pip \
     pip install -r requirements.txt 
 
 ENTRYPOINT ["python", "/action.py"]
+# API_ROOT passed in to entrypoint by action.yml

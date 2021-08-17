@@ -1,16 +1,8 @@
 # action.yml
-name: 'Check Content'
-description: 'Check content contains all necessary components'
-# inputs:
-#   who-to-greet:  # id of input
-#     description: 'Who to greet'
-#     required: false
-#     default: 'World'
-outputs:
-  time: # id of output
-    description: 'The time we greeted you'
+name: 'Deploy Content'
+description: 'Deploys content'
 runs:
   using: 'docker'
   image: 'Dockerfile'
-  # args:
-  #   - ${{ inputs.who-to-greet }}
+  args:
+    - ${{ secrets.API_ROOT }}

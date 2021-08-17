@@ -8,6 +8,9 @@ from utils import (
 import os
 import requests
 import json
+import sys
+
+print("args:", sys.argv)
 
 try:
     API_ROOT = os.environ["API_ROOT"]
