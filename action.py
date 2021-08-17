@@ -8,14 +8,9 @@ from utils import (
 import os
 import requests
 import json
-import sys
 
-print("args:", sys.argv)
-
-try:
-    API_ROOT = os.environ["API_ROOT"]
-except KeyError:
-    API_ROOT = "http://localhost:8000"
+API_ROOT = "https://pn4p83f4o6.execute-api.eu-west-1.amazonaws.com/prod"
+# API_ROOT = "http://localhost:8000"
 
 
 class Client:
