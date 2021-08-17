@@ -1,12 +1,12 @@
-name: My test
+name: The test
 questions:
   - question: Which is the best option?
     description: THis is a great question
     options:
-      - option: The first option
+      - option: The first and best option
         correct: true
         reason: Great option
-      - option: The second option
+      - option: The second and worst option
         correct: false
         reason: Bad option
        
