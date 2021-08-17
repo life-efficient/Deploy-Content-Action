@@ -13,7 +13,7 @@ inputs:
   unit_name:
     description: Name of unit
     required: false
-    default: ${{ github.repository.name }}
+    default: ${{ github.repository }}
 runs:
   using: 'docker'
   image: 'Dockerfile'
