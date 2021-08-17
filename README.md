@@ -1,6 +1,6 @@
-# Quiz-Action
+# Deploy-Content-Action
 
-This action checks the quiz and uploads it to typeform
+This action deploys the content
 
 ## Example usage
 
