@@ -4,5 +4,5 @@ description: 'Deploys content'
 runs:
   using: 'docker'
   image: 'Dockerfile'
-  args:
-    - ${{ secrets.API_ROOT }}
+  # args:
+  #   - ${{ secrets.API_ROOT }}
