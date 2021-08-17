@@ -40,7 +40,10 @@ if __name__ == "__main__":
 
     # CREAT UNIT ENTRY
     unit_meta = get_meta(".unit.yaml")
-    unit_meta["name"] = os.path.dirname(os.path.realpath(__file__)).split("/")[-1]
+    # unit_meta["name"] = os.path.dirname(os.path.realpath(__file__)).split("/")[-1] # local
+    unit_meta["name"] = (
+        sys.argv[-1].split("/")[-1].replace("-Private", "")
+    )  # folder name is passed in as cli arg and will be the private version
     client.create_or_update_unit(unit_meta)
 
     # CREATE MODULE ENTRIES
