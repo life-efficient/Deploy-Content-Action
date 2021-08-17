@@ -11,4 +11,5 @@ runs:
   image: 'Dockerfile'
   args:
     - ${{ inputs.unit_name }}
+    - 'foo'
     # - ${{ secrets.API_ROOT }}
