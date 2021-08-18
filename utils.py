@@ -9,7 +9,9 @@ def get_meta(filepath):
 
 
 def get_module_paths():
-    return [p for p in os.listdir() if os.path.isdir(p) and p[0] != "."]
+    return [
+        p for p in os.listdir() if os.path.isdir(p) and p[0] != "." and p != "Extra"
+    ]
 
 
 def get_lesson_paths():
