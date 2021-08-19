@@ -31,7 +31,7 @@ class Client:
         self._request(f"{API_ROOT}/content/quiz", quiz)
 
     def create_or_update_challenge(self, challenge):
-        self._request(f"{API_ROOT}/content/challenge", quiz)
+        self._request(f"{API_ROOT}/content/challenge", challenge)
 
     def _request(self, url, payload_yaml):
         response = requests.post(url, data=json.dumps(payload_yaml))
