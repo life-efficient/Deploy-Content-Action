@@ -9,6 +9,7 @@ import os
 import requests
 import json
 import sys
+import urllib.parse
 
 print(sys.argv)
 
@@ -80,6 +81,13 @@ if __name__ == "__main__":
                     lesson_meta["study_guide"] = f.read()
             else:
                 print(f'Study Guide.md not found for lesson "{lesson_path}"')
+
+            # ADD NOTEBOOK COLAB LINK
+            if os.path.exists(os.path.join(lesson_path, "Notebook.ipynb")):
+                public_repo_name = sys.argv[-1].split("/")[-1].replace("-Private", "")
+                colab_link = f"https://colab.research.google.com/github/life-efficient/{public_repo_name}/blob/main/{lesson_path}/Notebook.ipynb"
+                colab_link = urllib.parse.quote(colab_link, safe="%/:")
+                lesson_meta["notebook_url"] = colab_link
 
             # CREATE LESSON ENTRY
             try:
