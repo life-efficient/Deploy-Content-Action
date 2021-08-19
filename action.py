@@ -13,8 +13,8 @@ import urllib.parse
 
 print(sys.argv)
 
-API_ROOT = "https://pn4p83f4o6.execute-api.eu-west-1.amazonaws.com/prod"
-# API_ROOT = "http://localhost:8000"
+# API_ROOT = "https://pn4p83f4o6.execute-api.eu-west-1.amazonaws.com/prod"
+API_ROOT = "http://localhost:8000"
 
 
 class Client:
@@ -56,12 +56,19 @@ if __name__ == "__main__":
     for module_path in get_module_paths():
 
         # SKIP UNWANTED FOLDERS WHICH ARE NOT MODULES
-        if module_path in [".git", ".idea", ".tox", "__pycache__", ".vscode"]:
+        if module_path in [
+            ".git",
+            ".idea",
+            ".tox",
+            "__pycache__",
+            ".vscode",
+            "Project briefs",
+        ]:
             continue
 
         # CREATE MODULE ENTRY
         module_meta = get_meta(os.path.join(module_path, ".module.yaml"))
-        print(module_meta)
+        # print(module_meta)
         module_meta["name"] = module_path.split("/")[-1]
         module_meta["unit_id"] = unit_meta["id"]
         try:
@@ -101,16 +108,16 @@ if __name__ == "__main__":
 
             # CREATE QUIZ ENTRY
             quiz_path = get_quiz_path_in_lesson(lesson_path)
-            if not os.path.exists(quiz_path):
-                continue
-            with open(quiz_path) as f:
-                quiz = yaml.safe_load(f)
-            quiz["lesson_id"] = lesson_meta["id"]
-            try:
-                client.create_or_update_quiz(quiz)
-            except AssertionError:
-                print(f'Creating quiz "{quiz_path}" failed')
-                continue
+            if os.path.exists(quiz_path):
+                with open(quiz_path) as f:
+                    quiz = yaml.safe_load(f)
+                quiz["lesson_id"] = lesson_meta["id"]
+                try:
+                    client.create_or_update_quiz(quiz)
+                except AssertionError:
+                    print(f'Creating quiz "{quiz_path}" failed')
+            else:
+                print(f'Quiz not found for lesson "{lesson_path}"')
 
             # CREATE CHALLENGE ENTRIES
             if os.path.exists(os.path.join(lesson_path, ".challenges.yaml")):
@@ -123,4 +130,6 @@ if __name__ == "__main__":
                     except AssertionError:
                         print(f'Creating challenge "{challenge["name"]}" failed')
                         continue
+            else:
+                print(f'Challenges.yaml not found for lesson "{lesson_path}"')
             # with open
