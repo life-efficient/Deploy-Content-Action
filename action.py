@@ -57,6 +57,7 @@ if __name__ == "__main__":
 
         # CREATE MODULE ENTRY
         module_meta = get_meta(os.path.join(module_path, ".module.yaml"))
+        print(module_meta)
         module_meta["name"] = module_path.split("/")[-1]
         module_meta["unit_id"] = unit_meta["id"]
         try:
@@ -72,6 +73,15 @@ if __name__ == "__main__":
             lesson_meta = get_meta(os.path.join(lesson_path, ".lesson.yaml"))
             lesson_meta["name"] = lesson_path.split("/")[-1]
             lesson_meta["module_id"] = module_meta["id"]
+
+            # ADD STUDY GUIDE COL
+            if os.path.exists(os.path.join(lesson_path, "Study Guide.md")):
+                with open(os.path.join(lesson_path, "Study Guide.md"), "r") as f:
+                    lesson_meta["study_guide"] = f.read()
+            else:
+                print(f'Study Guide.md not found for lesson "{lesson_path}"')
+
+            # CREATE LESSON ENTRY
             try:
                 client.create_or_update_lesson(lesson_meta)
             except AssertionError:

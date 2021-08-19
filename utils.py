@@ -3,6 +3,7 @@ import yaml
 
 
 def get_meta(filepath):
+    print(filepath)
     with open(filepath) as f:
         meta = yaml.safe_load(f)
     return meta
