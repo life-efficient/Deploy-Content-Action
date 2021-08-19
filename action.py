@@ -30,6 +30,9 @@ class Client:
     def create_or_update_quiz(self, quiz):
         self._request(f"{API_ROOT}/content/quiz", quiz)
 
+    def create_or_update_challenge(self, challenge):
+        self._request(f"{API_ROOT}/content/challenge", quiz)
+
     def _request(self, url, payload_yaml):
         response = requests.post(url, data=json.dumps(payload_yaml))
         print(response)
@@ -108,3 +111,16 @@ if __name__ == "__main__":
             except AssertionError:
                 print(f'Creating quiz "{quiz_path}" failed')
                 continue
+
+            # CREATE CHALLENGE ENTRIES
+            if os.path.exists(os.path.join(lesson_path, ".challenges.yaml")):
+                with open(os.path.join(lesson_path, ".challenges.yaml"), "r") as f:
+                    challenges = yaml.safe_load(f)
+                for challenge in challenges:
+                    challenge["lesson_id"] = lesson_meta["id"]
+                    try:
+                        client.create_or_update_challenge(challenge)
+                    except AssertionError:
+                        print(f'Creating challenge "{challenge["name"]}" failed')
+                        continue
+            # with open
