@@ -10,8 +10,19 @@ def get_meta(filepath):
 
 
 def get_module_paths():
+    not_modules = [
+        ".git",
+        ".idea",
+        ".tox",
+        "__pycache__",
+        ".vscode",
+        "Project Briefs",
+        "Extra",
+    ]
     return [
-        p for p in os.listdir() if os.path.isdir(p) and p[0] != "." and p != "Extra"
+        p
+        for p in os.listdir()
+        if os.path.isdir(p) and p[0] != "." and p not in not_modules
     ]
 
 
