@@ -74,6 +74,12 @@ if __name__ == "__main__":
             lesson_meta["name"] = lesson_path.split("/")[-1]
             lesson_meta["module_id"] = module_meta["id"]
 
+            requires_notebook = True
+            if "requires_notebook" in lesson_meta:
+                requires_notebook = lesson_meta.pop(
+                    "requires_notebook"
+                )  # remove from meta
+
             # ADD STUDY GUIDE COL
             if os.path.exists(os.path.join(lesson_path, "Study Guide.md")):
                 with open(os.path.join(lesson_path, "Study Guide.md"), "r") as f:
@@ -109,7 +115,9 @@ if __name__ == "__main__":
                 print(f'Quiz not found for lesson "{lesson_path}"')
 
             # CREATE CHALLENGE ENTRIES
-            if os.path.exists(os.path.join(lesson_path, ".challenges.yaml")):
+            if requires_notebook and os.path.exists(
+                os.path.join(lesson_path, ".challenges.yaml")
+            ):
                 with open(os.path.join(lesson_path, ".challenges.yaml"), "r") as f:
                     challenges = yaml.safe_load(f)
                 for challenge in challenges:
