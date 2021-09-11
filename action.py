@@ -120,8 +120,9 @@ if __name__ == "__main__":
             ):
                 with open(os.path.join(lesson_path, ".challenges.yaml"), "r") as f:
                     challenges = yaml.safe_load(f)
-                for challenge in challenges:
+                for challenge_idx, challenge in enumerate(challenges):
                     challenge["lesson_id"] = lesson_meta["id"]
+                    challenge["idx_in_lesson"] = challenge_idx
                     try:
                         client.create_or_update_challenge(challenge)
                     except AssertionError:
