@@ -115,9 +115,7 @@ if __name__ == "__main__":
                 print(f'Quiz not found for lesson "{lesson_path}"')
 
             # CREATE CHALLENGE ENTRIES
-            if requires_notebook and os.path.exists(
-                os.path.join(lesson_path, ".challenges.yaml")
-            ):
+            if os.path.exists(os.path.join(lesson_path, ".challenges.yaml")):
                 with open(os.path.join(lesson_path, ".challenges.yaml"), "r") as f:
                     challenges = yaml.safe_load(f)
                 for challenge_idx, challenge in enumerate(challenges):
