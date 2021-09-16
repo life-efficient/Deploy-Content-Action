@@ -16,7 +16,8 @@ jobs:
       
       - name: Copy private content
         run: |
-          tag_name=${$GITHUB_REF#"$prefix"}
+          prefix_to_remove="refs/tags/"
+          tag_name=${GITHUB_REF#"$prefix_to_remove"}
           echo $tag_name
           echo "      - uses: life-efficient/Deploy-Content-Action@$tag_name"
           echo "      - uses: life-efficient/Deploy-Content-Action@$tag_name" >> workflow_to_deploy.yml
