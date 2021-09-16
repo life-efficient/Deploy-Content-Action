@@ -16,10 +16,7 @@ jobs:
       - name: Copy private content
         run: |
           mkdir ../deploy_content_dir
-          pwd
-          ls
-          ls ..
-          mv workflow_to_deploy.yaml ../deploy_content_dir
+          mv workflow_to_deploy.yml ../deploy_content_dir
 
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
@@ -29,7 +26,7 @@ jobs:
 
       - name: Copy updated workflow file over
         run: |
-          cp ../workflow_to_deploy.yaml $GITHUB_WORKSPACE/.github/workflows/
+          cp ../workflow_to_deploy.yml $GITHUB_WORKSPACE/.github/workflows/
           
       - name: Commit and push changes
         run: |
