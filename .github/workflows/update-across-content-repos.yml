@@ -14,7 +14,8 @@ jobs:
         run: |
           prefix_to_remove="refs/tags/"
           tag_name=${GITHUB_REF#"$prefix_to_remove"}
-          echo "\n      - uses: life-efficient/Deploy-Content-Action@$tag_name" >> workflow_to_deploy.yml
+          echo "" >> workflow_to_deploy.yml # add newline
+          echo "      - uses: life-efficient/Deploy-Content-Action@$tag_name" >> workflow_to_deploy.yml # add new step
           mv workflow_to_deploy.yml ..
 
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
