@@ -1,11 +1,7 @@
 name: Deploy across content repos
 
 on:
-  push:
-    branches: [ main ]
   release:
-
-  workflow_dispatch:
 
 jobs:
   build:
