@@ -11,8 +11,12 @@ jobs:
     strategy:
       matrix:
         repo: 
-          - Machine-Learning
+          - Essentials
+          - Software-Engineering
+          - Cloud-and-DevOps
           - Data-Engineering
+          - Machine-Learning
+          - Deep-Learning
           - MLOps
 
     steps:
@@ -26,7 +30,6 @@ jobs:
           echo "      - uses: life-efficient/Deploy-Content-Action@$tag_name" >> workflow_to_deploy.yml # add new step
           mv workflow_to_deploy.yml ..
 
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
         with:
           repository: life-efficient/${{ matrix.repo }}-Private
