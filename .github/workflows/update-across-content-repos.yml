@@ -2,6 +2,8 @@ name: Deploy across content repos
 
 on:
   release:
+    types:
+      - released
 
 jobs:
   build:
