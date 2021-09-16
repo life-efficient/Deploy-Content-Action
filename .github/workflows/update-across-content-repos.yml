@@ -6,6 +6,10 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        repo: 
+          - Machine-Learning
 
     steps:
       - uses: actions/checkout@v2
@@ -21,7 +25,7 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
         with:
-          repository: life-efficient/Machine-Learning-Private
+          repository: life-efficient/${{ matrix.repo }}-Private
           token: ${{ secrets.PUBLICPAT }}
 
       - name: Copy updated workflow file over
