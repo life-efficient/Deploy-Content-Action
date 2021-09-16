@@ -12,5 +12,3 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
-      
-      - uses: life-efficient/Deploy-Content-Action@v220
