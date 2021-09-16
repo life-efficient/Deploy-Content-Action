@@ -27,7 +27,7 @@ jobs:
         run: |
           pwd
           ls -a
-          cp ../workflow_to_deploy.yml .github/workflows/
+          cp ../workflow_to_deploy.yml .github/workflows/deploy-content.yml
           
       - name: Commit and push changes
         run: |
