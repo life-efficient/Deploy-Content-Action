@@ -16,6 +16,9 @@ jobs:
       - name: Copy private content
         run: |
           mkdir ../deploy_content_dir
+          pwd
+          ls
+          ls ..
           mv workflow_to_deploy.yaml ../deploy_content_dir
 
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
