@@ -10,6 +10,8 @@ jobs:
       matrix:
         repo: 
           - Machine-Learning
+          - Data-Engineering
+          - MLOps
 
     steps:
       - uses: actions/checkout@v2
