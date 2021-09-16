@@ -25,6 +25,8 @@ jobs:
 
       - name: Copy updated workflow file over
         run: |
+          pwd
+          ls -a
           cp ../workflow_to_deploy.yml .github/workflows/
           
       - name: Commit and push changes
