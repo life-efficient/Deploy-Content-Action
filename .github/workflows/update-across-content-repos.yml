@@ -1,0 +1,42 @@
+name: Deploy across content repos
+
+on:
+  push:
+    branches: [ main ]
+
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      
+      - name: Copy private content
+        run: |
+          mkdir ../deploy_content_dir
+          cd ../deploy_content_dir
+          mv $GITHUB_WORKSPACE/workflow_to_deploy.yaml .
+
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v2
+        with:
+          repository: life-efficient/Machine-Learning
+          token: ${{ secrets.PUBLICPAT }}
+
+      - name: Copy updated workflow file over
+        run: |
+          ls $GITHUB_WORKSPACE/
+          cd $GITHUB_WORKSPACE/
+          cd ../deploy_content_dir
+          cp workflow_to_deploy.yaml $GITHUB_WORKSPACE/.github/workflows/
+          cd $GITHUB_WORKSPACE
+          
+      - name: Commit and push changes
+        run: |
+          git config --global user.email "harryaberg@gmail.com"
+          git config --global user.name "Harry"
+          git add .
+          git commit -m "Updates deploy content action"
+          git push
