@@ -14,12 +14,10 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       
-      - name: Copy private content
+      - name: Update workflow file
         run: |
           prefix_to_remove="refs/tags/"
           tag_name=${GITHUB_REF#"$prefix_to_remove"}
-          echo $tag_name
-          echo "      - uses: life-efficient/Deploy-Content-Action@$tag_name"
           echo "      - uses: life-efficient/Deploy-Content-Action@$tag_name" >> workflow_to_deploy.yml
           mv workflow_to_deploy.yml ..
 
@@ -31,8 +29,6 @@ jobs:
 
       - name: Copy updated workflow file over
         run: |
-          pwd
-          ls -a
           cp ../workflow_to_deploy.yml .github/workflows/deploy-content.yml
           
       - name: Commit and push changes
