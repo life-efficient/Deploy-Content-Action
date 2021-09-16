@@ -17,6 +17,9 @@ jobs:
         run: |
           mkdir ../deploy_content_dir
           mv workflow_to_deploy.yml ../deploy_content_dir
+          ls ..
+          echo yo
+          ls ../deploy_content_dir
 
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
