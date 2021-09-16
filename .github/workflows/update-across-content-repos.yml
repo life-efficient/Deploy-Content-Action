@@ -16,8 +16,10 @@ jobs:
       
       - name: Copy private content
         run: |
-          echo "      - uses: life-efficient/Deploy-Content-Action@$GITHUB_REF"
-          echo "      - uses: life-efficient/Deploy-Content-Action@$GITHUB_REF" >> workflow_to_deploy.yml
+          tag_name=${$GITHUB_REF#"$prefix"}
+          echo $tag_name
+          echo "      - uses: life-efficient/Deploy-Content-Action@$tag_name"
+          echo "      - uses: life-efficient/Deploy-Content-Action@$tag_name" >> workflow_to_deploy.yml
           mv workflow_to_deploy.yml ..
 
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
