@@ -13,7 +13,7 @@ import urllib.parse
 
 print(sys.argv)
 
-API_ROOT = "https://pn4p83f4o6.execute-api.eu-west-1.amazonaws.com/prod"
+API_ROOT = "https://reczg13drk.execute-api.eu-west-1.amazonaws.com/prod/"
 # API_ROOT = "http://localhost:8000"
 
 
