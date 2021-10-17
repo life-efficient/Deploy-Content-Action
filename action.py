@@ -71,7 +71,15 @@ if __name__ == "__main__":
         # CREATE LESSON ENTRIES
         for lesson_path in lesson_paths:
             lesson_meta = get_meta(os.path.join(lesson_path, ".lesson.yaml"))
-            lesson_meta["name"] = lesson_path.split("/")[-1]
+            lesson_name = lesson_path.split("/")[-1]
+            try:
+                lesson_name = lesson_name.split(". ")[1]
+            except:
+                print(
+                    f"WARNING: {lesson_name} was expected to be numbered and contain '. ', but didn't"
+                )
+            lesson_meta["name"] = lesson_name
+
             lesson_meta["module_id"] = module_meta["id"]
 
             requires_notebook = True
