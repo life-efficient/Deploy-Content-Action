@@ -69,7 +69,7 @@ if __name__ == "__main__":
         lesson_paths = get_lesson_paths_in_module(module_path)
 
         # CREATE LESSON ENTRIES
-        for lesson_path in lesson_paths:
+        for lesson_idx, lesson_path in enumerate(lesson_paths):
             lesson_meta = get_meta(os.path.join(lesson_path, ".lesson.yaml"))
             lesson_name = lesson_path.split("/")[-1]
             try:
@@ -79,7 +79,7 @@ if __name__ == "__main__":
                     f"WARNING: {lesson_name} was expected to be numbered and contain '. ', but didn't"
                 )
             lesson_meta["name"] = lesson_name
-
+            lesson_meta["lesson_idx"] = lesson_idx
             lesson_meta["module_id"] = module_meta["id"]
 
             requires_notebook = True
