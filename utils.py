@@ -47,6 +47,7 @@ def get_lesson_paths_in_module(module_path):
             continue
         path = os.path.join(module_path, lesson)
         lesson_paths.append(path)
+    lesson_paths = sorted(lesson_paths)
     return lesson_paths
 
 
