@@ -79,7 +79,7 @@ if __name__ == "__main__":
                     f"WARNING: {lesson_name} was expected to be numbered and contain '. ', but didn't"
                 )
             lesson_meta["name"] = lesson_name
-            lesson_meta["lesson_idx"] = lesson_idx
+            lesson_meta["idx"] = lesson_idx
             lesson_meta["module_id"] = module_meta["id"]
 
             requires_notebook = True
