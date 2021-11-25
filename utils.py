@@ -51,7 +51,7 @@ def get_lesson_paths_in_module(module_path):
         path = os.path.join(module_path, lesson)
         lesson_paths.append(path)
     
-    lesson_paths = sorted(lesson_paths, key=get_lesson_idx_from_name)
+    lesson_paths = sorted(lesson_paths)
     return lesson_paths
 
 
