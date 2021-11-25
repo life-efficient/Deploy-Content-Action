@@ -34,6 +34,9 @@ def get_lesson_paths():
         paths.extend(lesson_paths)
     return paths
 
+def get_lesson_idx_from_name(lesson_name):
+    idx = int(lesson_name.split('.')[0])
+    return idx
 
 def get_lesson_paths_in_module(module_path):
     lesson_names = [m for m in os.listdir(module_path)]
@@ -47,7 +50,8 @@ def get_lesson_paths_in_module(module_path):
             continue
         path = os.path.join(module_path, lesson)
         lesson_paths.append(path)
-    lesson_paths = sorted(lesson_paths)
+    
+    lesson_paths = sorted(lesson_paths, key=get_lesson_idx_from_name)
     return lesson_paths
 
 
