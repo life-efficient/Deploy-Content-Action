@@ -33,6 +33,13 @@ class Client:
     def create_or_update_challenge(self, challenge):
         self._request(f"{API_ROOT}/content/challenge", challenge)
 
+    def set_dependencies(self, module_id: str, dependency_module_ids: list):
+        """Deletes existing dependencies for module with id equal to `module_id` and assigns new ones equal to ids in `dependency_module_ids`"""
+        self._request(f"{API_ROOT}/content/module/dependencies", {
+            'module_id': module_id,
+            'dependency_module_ids': dependency_module_ids
+        })
+
     def _request(self, url, payload_yaml):
         response = requests.post(url, data=json.dumps(payload_yaml))
         print(response)
@@ -55,6 +62,12 @@ if __name__ == "__main__":
     # CREATE MODULE ENTRIES
     for module_path in get_module_paths():
 
+        # TODO MOVE AFTER CREATING MODULE ENTRY AND ASSERT MODULES EXIST
+        if 'prerequisites' in module_meta:
+            dependency_module_ids = module_meta.pop('prerequisites') # pop off
+            # CREATE ROW IN DEPENDENCY TABLE
+            client.set_dependencies(module_meta['id'], dependency_module_ids)
+
         # CREATE MODULE ENTRY
         module_meta = get_meta(os.path.join(module_path, ".module.yaml"))
         # print(module_meta)
@@ -65,6 +78,7 @@ if __name__ == "__main__":
         except AssertionError:
             print(f'Creating module "{module_path}" failed')
             continue
+
 
         lesson_paths = get_lesson_paths_in_module(module_path)
 
