@@ -61,6 +61,9 @@ if __name__ == "__main__":
 
     # CREATE MODULE ENTRIES
     for module_path in get_module_paths():
+        
+        # CREATE MODULE ENTRY
+        module_meta = get_meta(os.path.join(module_path, ".module.yaml"))
 
         # TODO MOVE AFTER CREATING MODULE ENTRY AND ASSERT MODULES EXIST
         if 'prerequisites' in module_meta:
@@ -69,8 +72,6 @@ if __name__ == "__main__":
             # CREATE ROW IN PREREQUISITES TABLE
             client.set_prerequisites(module_meta['id'], prerequisite_module_ids)
 
-        # CREATE MODULE ENTRY
-        module_meta = get_meta(os.path.join(module_path, ".module.yaml"))
         # print(module_meta)
         module_meta["name"] = module_path.split("/")[-1]
         module_meta["unit_id"] = unit_meta["id"]
