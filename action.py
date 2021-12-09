@@ -33,6 +33,13 @@ class Client:
     def create_or_update_challenge(self, challenge):
         self._request(f"{API_ROOT}/content/challenge", challenge)
 
+    def set_prerequisites(self, module_id: str, prerequisite_module_ids: list):
+        """Deletes existing prerequisites for module with id equal to `module_id` and assigns new ones equal to ids in `prerequisite_module_ids`"""
+        self._request(f"{API_ROOT}/content/module/prerequisites", {
+            'module_id': module_id,
+            'prerequisite_module_ids': prerequisite_module_ids
+        })
+
     def _request(self, url, payload_yaml):
         response = requests.post(url, data=json.dumps(payload_yaml))
         print(response)
@@ -55,6 +62,13 @@ if __name__ == "__main__":
     # CREATE MODULE ENTRIES
     for module_path in get_module_paths():
 
+        # TODO MOVE AFTER CREATING MODULE ENTRY AND ASSERT MODULES EXIST
+        if 'prerequisites' in module_meta:
+            prerequisite_module_ids = module_meta.pop('prerequisites') # pop off
+            prerequisite_module_ids = [p['id'] for p in prerequisite_module_ids]
+            # CREATE ROW IN PREREQUISITES TABLE
+            client.set_prerequisites(module_meta['id'], prerequisite_module_ids)
+
         # CREATE MODULE ENTRY
         module_meta = get_meta(os.path.join(module_path, ".module.yaml"))
         # print(module_meta)
@@ -65,6 +79,7 @@ if __name__ == "__main__":
         except AssertionError:
             print(f'Creating module "{module_path}" failed')
             continue
+
 
         lesson_paths = get_lesson_paths_in_module(module_path)
 
