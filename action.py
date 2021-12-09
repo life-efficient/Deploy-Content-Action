@@ -65,6 +65,7 @@ if __name__ == "__main__":
         # TODO MOVE AFTER CREATING MODULE ENTRY AND ASSERT MODULES EXIST
         if 'prerequisites' in module_meta:
             prerequisite_module_ids = module_meta.pop('prerequisites') # pop off
+            prerequisite_module_ids = [p['id'] for p in prerequisite_module_ids]
             # CREATE ROW IN PREREQUISITES TABLE
             client.set_prerequisites(module_meta['id'], prerequisite_module_ids)
 
