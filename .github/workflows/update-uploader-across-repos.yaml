@@ -1,0 +1,46 @@
+name: Deploy quiz template accross all repos
+
+on:
+  release:
+    types:
+      - released
+
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        repo: 
+          - Essentials
+          - Software-Engineering
+          - Cloud-and-DevOps
+          - Data-Engineering
+          - Machine-Learning
+          - Deep-Learning
+          - MLOps
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - uses: actions/checkout@v2
+        with:
+          repository: life-efficient/${{ matrix.repo }}-Private
+          token: ${{ secrets.PUBLICPAT }}
+
+      - name: Copy updated workflow file over
+        run: |
+          cp ../questions_template.yml .github/workflows/upload-questions.yml
+
+      - name: Copy upload_question script
+        run: |
+          cp ../upload_questions.py .github/upload_questions.py
+          
+      - name: Commit and push changes
+        run: |
+          git config --global user.email "harryaberg@gmail.com"
+          git config --global user.name "Harry"
+          git add .
+          git commit -m "Updates question updater"
+          git push
